@@ -10,9 +10,13 @@ def inicio (request):
 
     return render(request, 'AppTorneo/inicio.html')
 
-def categorias (request):
+def presentacion (request):
 
-    return render (request,'AppTorneo/categorias.html' )
+    return render(request, 'AppTorneo/presentacion.html')   
+
+def torneos (request):
+
+    return render (request,'AppTorneo/torneos.html' )
 
 def equipos (request):
 

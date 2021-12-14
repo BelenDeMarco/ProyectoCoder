@@ -7,7 +7,9 @@ urlpatterns = [
 
     path ('Inicio', views.inicio, name = "Inicio"),
 
-    path ('Categorias', views.categorias, name = "Categorias"),
+    path ('Presentacion', views.presentacion, name = "Presentacion"),
+
+    path ('Torneos', views.torneos, name = "Torneos"),
 
     path ('Equipos', views.equipos, name = "Equipos"),
 

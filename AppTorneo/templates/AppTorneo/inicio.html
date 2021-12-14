@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
     
-</body>
-</html>
+    <div class="masthead-subheading">#FUTBOLENSERIO</div>
+    <div class="masthead-heading text-uppercase">Torneo ALTO NONO</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+<h1> titulo del inicio </h1>
+
+<p> parrafo presentando alto nono</p>
+
+{%endblock%} 
+
