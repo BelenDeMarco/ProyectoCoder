@@ -9,11 +9,12 @@ class Torneo (models.Model):
 
     sede = models.CharField(max_length=40)
 
-    horario = models.CharField(max_length=40)
-
     inicio = models.DateField()
 
-    inscripcion = models.CharField(max_length=40)
+    def __str__ (self):
+
+        return f"TORNEO: {self.tipo} {self.categoria} SEDE: {self.sede}"
+
 
 class Sede (models.Model):
 
@@ -21,9 +22,14 @@ class Sede (models.Model):
 
     ubicacion = models.CharField(max_length=40)
 
-    estacionamiento = models.CharField(max_length=40)
+    estacionamiento = models.BooleanField ()
 
-    vestuarios = models.CharField(max_length=40)
+    vestuarios = models.BooleanField ()
+
+
+    def __str__ (self):
+
+        return f"NOMBRE: {self.nombre}"
 
 class Equipo (models.Model):
 
@@ -31,6 +37,10 @@ class Equipo (models.Model):
 
     puntos = models.IntegerField()
     
+    def __str__ (self):
+
+        return f"EQUIPO: {self.nombre}"
+
 
 class Jugador (models.Model):
 
@@ -40,4 +50,6 @@ class Jugador (models.Model):
 
     habilitado = models.BooleanField ()
 
-    
+    def __str__ (self):
+
+        return f"NOMBRE: {self.nombre} {self.apellido}"
