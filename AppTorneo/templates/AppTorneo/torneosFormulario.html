@@ -1,0 +1,33 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    
+    <div class="masthead-subheading">FORMULARIOS DE INSCRIPCION</div>
+    
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+<h1> INSCRIBE TU TORNEO</h1>           
+
+<form action="/AppTorneo/torneosFormulario" method="post">{% csrf_token %}                
+
+        <p>----->tipo:    <input type="text"  name="tipo">     </p>
+
+        <p>----->categoria:    <input type="text"  name="categoria">     </p>
+
+        <p>----->sede:    <input type="text"  name="sede">     </p>
+
+        <p>----->inicio:    <input type="date"  name="inicio">     </p>
+
+        <input type="submit" value="enviar">
+
+
+
+</form>
+
+
+{%endblock%} 

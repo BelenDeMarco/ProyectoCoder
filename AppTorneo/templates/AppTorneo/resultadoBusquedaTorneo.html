@@ -1,0 +1,28 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+{% block titulo %}
+    
+    <div class="masthead-heading text-uppercase">resultado de la busqueda</div>
+
+{% endblock %}
+
+
+{% block contenidoVariable %} 
+
+    <h1> Torneos disponibles por sede</h1>
+
+    {% if torneos %}
+        <u1>
+         {% for torneo in torneos %}
+
+        <li>SEDE: {{torneo.sede}}</li>
+        <li>TORNEO: {{torneo.tipo}} {{torneo.categoria}}</li>
+        <li>INICIO: {{torneo.inicio}}</li> <br>
+        
+        {% endfor%}
+        </u1>
+    {% endif %}
+
+{%endblock%} 

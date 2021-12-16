@@ -15,6 +15,15 @@ urlpatterns = [
 
     path ('Jugadores', views.jugadores, name = "Jugadores"),
 
-    path ('torneoFormulario', views.torneoFormulario, name="torneoFormulario"),
+    path ('torneosFormulario', views.torneosFormulario, name="TorneosFormulario"),
+    
+    path ('equiposFormulario', views.equiposFormulario, name="EquiposFormulario"),
+
+    path ('jugadoresFormulario', views.jugadoresFormulario, name="JugadoresFormulario"),
+
+    path ('busquedaTorneo', views.busquedaTorneo, name="BusquedaTorneo"),
+    
+    path ('buscar/', views.buscar),
+
     
 ] 

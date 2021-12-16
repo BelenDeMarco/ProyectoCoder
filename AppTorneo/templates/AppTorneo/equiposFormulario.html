@@ -1,0 +1,28 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    
+    <div class="masthead-subheading">INSCRIPCION</div>
+    
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+
+<h1> INSCRIBE TU EQUIPO</h1>
+
+<form action="/AppTorneo/equiposFormulario" method = "POST"> {% csrf_token %} 
+
+    <p>----->Nombre:    <input type="text"  name="nombre">     </p>
+
+    <p>----->Puntos:    <input type="number"  name="puntos">     </p>
+
+    <input type="submit" value="ENVIAR">
+    
+</form>
+
+
+{%endblock%} 
