@@ -14,5 +14,7 @@ urlpatterns = [
     path ('Equipos', views.equipos, name = "Equipos"),
 
     path ('Jugadores', views.jugadores, name = "Jugadores"),
+
+    path ('torneoFormulario', views.torneoFormulario, name="torneoFormulario"),
     
 ] 
