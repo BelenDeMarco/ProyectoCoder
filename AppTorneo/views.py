@@ -3,8 +3,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-from AppTorneo.models import Equipo, Jugador, Torneo
-from AppTorneo.forms import JugadorFormulario
+from AppTorneo.models import Equipo, Torneo, Sede
+from AppTorneo.forms import TorneoFormulario
 
 
 def inicio (request):
@@ -18,75 +18,41 @@ def presentacion (request):
     return render(request, 'AppTorneo/presentacion.html')   
 
 def torneos (request):
-
-    return render (request,'AppTorneo/torneos.html' )
+   
+    return render(request, 'AppTorneo/torneos.html')
 
 def equipos (request):
 
     return render (request,'AppTorneo/equipos.html' )
 
-def jugadores (request):
+def sedes (request):
 
-    return render (request,'AppTorneo/jugadores.html' )
+    return render (request,'AppTorneo/sedes.html' )
+
 
 def torneosFormulario(request):
 
     if request.method == "POST":
-
-        torneoInsta = Torneo ( tipo = request.POST['tipo'], categoria = request.POST['categoria'], sede = request.POST['sede'], inicio = request.POST['inicio'])
-
-        torneoInsta.save()
-
-        return render(request, 'AppTorneo/Inicio.html')
-
-
-    return render(request, 'AppTorneo/torneosFormulario.html')
-
-
-def equiposFormulario(request):
-
-    if request.method == "POST":
-
-        equipoInsta = Equipo (nombre = request.POST['nombre'], puntos = request.POST ['puntos'])
-
-        equipoInsta.save()
-
-        return render(request, 'AppTorneo/Inicio.html')
-
-
-    return render(request, 'AppTorneo/equiposFormulario.html')
-
-
-def jugadoresFormulario(request):
-
-    if request.method == "POST":
         
-        miFormulario = JugadorFormulario (request.POST)
+        miFormulario = TorneoFormulario (request.POST)
 
         if miFormulario.is_valid():
 
             informacion = miFormulario.cleaned_data
 
-            jugadorInsta = Jugador (nombre = informacion["nombre"], apellido = informacion["apellido"], habilitado = informacion ["habilitado"])
+            torneoInsta = Torneo (nombre = informacion["nombre"], tipo = informacion["tipo"], categoria = informacion ["categoria"], sede = informacion ["sede"],inicio = informacion ["inicio"])
 
-            jugadorInsta.save() #guarda en la base de datos
+            torneoInsta.save() #guarda en la base de datos
 
-            return render (request,'AppTorneo/Inicio.html' )
+            return render (request,'AppTorneo/torneos.html' )
 
     else:
 
-        miFormulario = JugadorFormulario ()
+        miFormulario = TorneoFormulario ()
 
-    return render (request,'AppTorneo/jugadoresFormulario.html', {"miFormulario":miFormulario} )
+    return render (request,'AppTorneo/torneosFormulario.html', {"miFormulario":miFormulario} )  
 
 #busqueda
-
-def busquedaTorneo (request):
-
-    
-    return render(request, 'AppTorneo/busquedaTorneo.html')
-
-
 def buscar (request):
 
     if request.GET["sede"]:
@@ -94,11 +60,12 @@ def buscar (request):
         sede = request.GET["sede"]
        
         torneos = Torneo.objects.filter(sede__icontains = sede)
-
+    
         return render (request,'AppTorneo/resultadoBusquedaTorneo.html', {"sede": sede, "torneos": torneos})
 
     else: 
 
-        respuesta = "No enviaste datos"
+        respuesta = "Problema --> No se ingresaron datos en el buscador"
 
-    return HttpResponse (respuesta)
+        return render (request,'AppTorneo/resultadoBusquedaTorneo.html', {"respuesta": respuesta})
+

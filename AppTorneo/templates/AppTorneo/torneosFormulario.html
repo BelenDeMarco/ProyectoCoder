@@ -5,28 +5,25 @@
 
 {%block titulo%}
     
-    <div class="masthead-subheading">FORMULARIOS DE INSCRIPCION</div>
+    <div class="masthead-heading text-uppercase">AGREGAR TORNEO</div>
     
 {%endblock%}
 
 {% block contenidoVariable %} 
 
-<h1> INSCRIBE TU TORNEO</h1>           
 
-<form action="/AppTorneo/torneosFormulario" method="post">{% csrf_token %}                
+<h1> Cargar nuevo torneo</h1>
 
-        <p>----->tipo:    <input type="text"  name="tipo">     </p>
+<form action="/AppTorneo/torneosFormulario" method = "POST"> {% csrf_token %} 
 
-        <p>----->categoria:    <input type="text"  name="categoria">     </p>
+    <table>
+        
+        {{ miFormulario.as_table }}
 
-        <p>----->sede:    <input type="text"  name="sede">     </p>
-
-        <p>----->inicio:    <input type="date"  name="inicio">     </p>
-
-        <input type="submit" value="enviar">
-
-
-
+    </table>
+    
+        <input type= submit   value = "ENVIAR">
+   
 </form>
 
 

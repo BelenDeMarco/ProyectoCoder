@@ -4,16 +4,27 @@
 
 {% block titulo %}
     
-    <div class="masthead-subheading">#FUTBOLENSERIO</div>
-    <div class="masthead-heading text-uppercase">Torneos</div>
+    <div class="masthead-subheading">conocé más sobre nuestros torneos</div>
+    <div class="masthead-heading text-uppercase">TORNEOS</div>
 
 {% endblock %}
 
 
 {% block contenidoVariable %} 
 
-<h1> TORNEOS</h1>
+<h1> NUESTROS TORNEOS </h1>
 
-<p> presentacion de torneos por categoria? por sede?</p>
+<p> Descripcion zarazasa  </p>
+
+<h5> BUSQUEDA </h5>
+<p> Conocé que torneos se juegan en cada sede, ingresando tu sede de interes en el buscador: </p>
+
+<form action = "/AppTorneo/buscar/"  method = "GET"> 
+
+    <input type = "text" name = "sede" id = "sede" >
+
+    <input type = "submit" value="enviar">
+
+</form>
 
 {%endblock%} 

@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 class Torneo (models.Model):
 
+    nombre = models.CharField(max_length=40)
+
     tipo= models.CharField(max_length=40)
 
     categoria = models.CharField(max_length=40)
@@ -13,7 +15,7 @@ class Torneo (models.Model):
 
     def __str__ (self):
 
-        return f"TORNEO: {self.tipo} {self.categoria} SEDE: {self.sede}"
+        return f"TORNEO: {self.nombre}"
 
 
 class Sede (models.Model):
@@ -35,21 +37,12 @@ class Equipo (models.Model):
 
     nombre = models.CharField(max_length=40)
 
-    puntos = models.IntegerField()
+    localidad = models.CharField(max_length=40)
+
+    torneo = models.CharField(max_length=40)
     
     def __str__ (self):
 
         return f"EQUIPO: {self.nombre}"
 
 
-class Jugador (models.Model):
-
-    nombre = models.CharField(max_length=40)
-
-    apellido = models.CharField(max_length=40)
-
-    habilitado = models.BooleanField ()
-
-    def __str__ (self):
-
-        return f"NOMBRE: {self.nombre} {self.apellido}"
