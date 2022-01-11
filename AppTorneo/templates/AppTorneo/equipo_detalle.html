@@ -1,0 +1,25 @@
+{% extends "AppTorneo/padre.html" %}
+
+
+{% load static %}
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">INFO DEL EQUIPO</div>
+
+{%endblock%}
+
+
+{% block contenidoVariable %} 
+
+          <p>Nombre: <i> {{ equipo.nombre}}</i></p>
+          <p>Localidad: <i> {{ equipo.localidad}}</i></p>
+          <p>Participante del torneo: <i> {{ equipo.torneo}}</i></p>
+
+          <p>
+
+            <a href="{% url 'EquipoList' %}">Regresar</a>
+
+          </p>
+         
+{% endblock %}

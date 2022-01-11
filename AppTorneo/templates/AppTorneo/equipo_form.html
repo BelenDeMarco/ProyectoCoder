@@ -1,0 +1,26 @@
+{% extends "AppTorneo/padre.html" %}
+
+
+{% load static %}
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">EQUIPOS</div>
+
+{%endblock%}
+
+
+{% block contenidoVariable %} 
+
+          <h3>Cargar/Modificar equipo</h3><br>
+          <form method="POST"> {% csrf_token %}
+
+         
+          <p> {{form.as_p}} </p>
+
+
+          <input type="submit" value="Enviar" />
+
+          </form>
+
+{% endblock %}

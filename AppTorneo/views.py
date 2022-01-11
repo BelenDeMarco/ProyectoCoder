@@ -69,3 +69,60 @@ def buscar (request):
 
         return render (request,'AppTorneo/resultadoBusquedaTorneo.html', {"respuesta": respuesta})
 
+#views equipos
+from django.views.generic import ListView
+
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView 
+
+
+class EquipoList(ListView):
+    model=Equipo
+    template_name="AppTorneo/equipos_list.html"
+
+class EquipoDetalle(DetailView):
+    model=Equipo
+    template_name="AppTorneo/equipo_detalle.html"
+
+class EquipoCreacion(CreateView):
+
+    model=Equipo
+    success_url = "../AppTorneo/equipo/list"
+    fields= ['nombre','localidad','torneo']
+
+
+class EquipoUpdate(UpdateView):
+    model=Equipo
+    success_url = "../equipo/list"
+    fields= ['nombre','localidad','torneo']
+
+
+class EquipoDelete(DeleteView):
+    model=Equipo
+    success_url = "../equipo/list"
+
+#views sedes
+class SedeList(ListView):
+    model=Sede
+    template_name="AppTorneo/sedes_list.html"
+
+class SedeDetalle(DetailView):
+    model=Sede
+    template_name="AppTorneo/sede_detalle.html"
+
+class SedeCreacion(CreateView):
+
+    model=Sede
+    success_url = "../AppTorneo/sede/list"
+    fields= ['nombre','ubicacion','estacionamiento','vestuarios']
+
+
+class SedeUpdate(UpdateView):
+    model=Sede
+    success_url = "../sede/list"
+    fields= ['nombre','ubicacion','estacionamiento','vestuarios']
+
+
+class SedeDelete(DeleteView):
+    model=Sede
+    success_url = "../sede/list"

@@ -1,0 +1,39 @@
+{% extends "AppTorneo/padre.html" %}
+
+
+{% load static %}
+
+{%block titulo%}
+
+    <div class="masthead-subheading"></div><br><br>
+    
+    <div class="masthead-heading text-uppercase">EQUIPOS</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+
+      <h3>Estos son los equipos que participan de Alto Nono</h3> <br>
+          <ul>
+            {% for equipo in object_list %}
+            <li>
+
+              <p>NOMBRE: {{ equipo.nombre}}</p>
+
+              <p>
+              <a href="{% url 'EquipoDetail' equipo.id %}">Ver más</a>
+              <a href="{% url 'EquipoEdit' equipo.id %}">Editar</a>
+              <a href="{% url 'EquipoDelete' equipo.id %}">Borrar</a>
+
+            </p>
+
+            </li>
+
+            {% endfor %}
+
+          </ul>
+        
+          <a href = "{% url 'EquipoNew' %}">Agregar otro equipo</a>
+
+{% endblock %}

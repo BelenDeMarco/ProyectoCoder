@@ -1,0 +1,25 @@
+{% extends "AppTorneo/padre.html" %}
+
+
+{% load static %}
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">INFO DE LA SEDE</div>
+
+{%endblock%}
+
+
+{% block contenidoVariable %} 
+
+          <p>Nombre: <i> {{ sede.nombre}}</i></p>
+          <p>Ubicación: <i> {{ sede.ubicacion}}</i></p>
+          <p>Estacionamiento disponible <i> {{ sede.estacionamiento}}</i></p>
+          <p>Vestuarios: <i> {{ sede.vestuarios}}</i></p>
+          <p>
+
+            <a href="{% url 'SedeList' %}">Regresar</a>
+
+          </p>
+         
+{% endblock %}
