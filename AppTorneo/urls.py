@@ -1,6 +1,7 @@
 from django.urls import path 
 
 from AppTorneo import views
+from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
@@ -28,11 +29,21 @@ urlpatterns = [
     path(r'^borrar/(?P<pk>\d+)$', views.EquipoDelete.as_view(), name='EquipoDelete'),
 
 #URL Sedes
-    path('sede/list', views.SedeList.as_view(), name='SedeList'),
+    path ('sedesFormulario', views.sedesFormulario, name = "SedesFormulario"),
 
-    path(r'^(?P<pk>\d+)$', views.SedeDetalle.as_view(), name='SedeDetail'),       
-    path(r'^nuevo$', views.SedeCreacion.as_view(), name='SedeNew'),
-    path(r'^editar/(?P<pk>\d+)$', views.SedeUpdate.as_view(), name='SedeEdit'),
-    path(r'^borrar/(?P<pk>\d+)$', views.SedeDelete.as_view(), name='SedeDelete'),
-    
+    path ('leerSedes', views.leerSedes, name = "LeerSedes"),
+
+    path ('eliminarSede/<sede_id>/', views.eliminarSede, name = "EliminarSede"),
+
+    path ('editarSede/<sede_id>/', views.modificarSede, name = "EditarSede"), 
+
+ #URL LOGIN, etc 
+    path('login', views.login_request, name="Login"),
+    path('register', views.register, name="Register"),
+
+#Logout
+    path('logout', LogoutView.as_view(template_name='AppTorneo/logout.html'), name="Logout"),
+
+#editarUsuario
+    path('editarPerfil', views.editarPerfil, name="EditarPerfil"),
 ] 

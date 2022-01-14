@@ -1,0 +1,37 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">SEDES</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+<h3>Conoce nuestras sedes!</h3> <br>
+<ul>
+{% for s in sedes %}
+  <li>
+
+    <p>{{ s }}<br>
+    Ubicacion: {{s.ubicacion}}<br>
+    Estacionamiento: {% if s.estacionamiento == True %} SI {% else %} NO {% endif %}<br>
+    Vestuarios: {% if s.vestuarios == True %} SI {% else %} NO {% endif %}</p>
+
+    <p>
+        <a href ="{% url 'EliminarSede' s.id%}"> Eliminar   </a>
+        <a href ="{% url 'EditarSede' s.id%}"> Editar </a>
+    </p>
+
+  </li>
+
+{% endfor %}
+
+</ul>
+
+<br><button><a href = "{% url 'SedesFormulario'%}">AGREGAR OTRA SEDE</a></button>
+
+{%endblock%}

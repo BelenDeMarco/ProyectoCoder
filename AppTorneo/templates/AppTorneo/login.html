@@ -1,0 +1,27 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">Login</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+
+<p> Ingresa con tu usuario y contraseña:</p>
+
+<form action="" method="POST">
+
+    {% csrf_token %}
+
+    {{form.as_p}}
+
+    <input type="submit" value="LOGIN">
+
+</form>
+
+{%endblock%} 

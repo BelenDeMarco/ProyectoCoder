@@ -1,0 +1,27 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">Alta de usuario</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+
+<h5> Ingresa los datos requeridos para generar tu usuario</h5><br>
+
+<form action="" method="POST">
+
+    {% csrf_token %}
+    
+    {{ form.as_p}}
+   
+    <input type="submit" value="ENVIAR">
+
+</form>
+
+{%endblock%} 

@@ -1,0 +1,29 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">SEDES</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+{% if miFormulario.errors %}
+
+<p>ERROR</p>
+{%endif%}
+
+<p>Modificar datos de sede</p>
+<form action = "" method = "POST"> {% csrf_token %} 
+
+    <table>
+    {{ miFormulario.as_table }}
+    </table>
+    <input type= submit   value = "ENVIAR">
+
+    </form> 
+
+{%endblock%}

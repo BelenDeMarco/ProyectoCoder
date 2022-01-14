@@ -1,0 +1,30 @@
+{% extends "AppTorneo/padre.html" %}
+
+{% load static %} 
+
+
+{%block titulo%}
+    <div class="masthead-subheading"></div><br><br>
+    <div class="masthead-heading text-uppercase">Editar Usuario</div>
+
+{%endblock%}
+
+{% block contenidoVariable %} 
+
+<h1> INFORMACION</h1>
+
+<p> Completar con nuestros datos</p>
+
+<form action="" method="POST">  {% csrf_token %}
+
+    <table>
+
+        {{ miFormulario.as_table }}
+
+    </table>
+
+    <input type="submit" value="ENVIAR">
+
+</form>
+
+{%endblock%} 

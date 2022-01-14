@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from AppTorneo.models import Equipo, Torneo, Sede
-from AppTorneo.forms import TorneoFormulario
+from AppTorneo.forms import TorneoFormulario, SedeFormulario, UserRegisterForm, UserEditForm
 
 
 def inicio (request):
@@ -102,27 +102,150 @@ class EquipoDelete(DeleteView):
     success_url = "../equipo/list"
 
 #views sedes
-class SedeList(ListView):
-    model=Sede
-    template_name="AppTorneo/sedes_list.html"
+def sedesFormulario (request):
 
-class SedeDetalle(DetailView):
-    model=Sede
-    template_name="AppTorneo/sede_detalle.html"
+    if request.method == "POST":
 
-class SedeCreacion(CreateView):
+        miFormulario = SedeFormulario (request.POST)
 
-    model=Sede
-    success_url = "../AppTorneo/sede/list"
-    fields= ['nombre','ubicacion','estacionamiento','vestuarios']
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            sedeInsta = Sede(nombre = informacion["nombre"], ubicacion = informacion["ubicacion"], estacionamiento= informacion["estacionamiento"], vestuarios = informacion ["vestuarios"])
+
+            sedeInsta.save() #guarda en la base de datos
+
+            sedes = Sede.objects.all ()
+            return render (request, "AppTorneo/leerSedes.html", {"sedes":sedes})
+
+    else:
+
+        miFormulario = SedeFormulario ()
+
+    return render (request,'AppTorneo/sedesFormulario.html', {"miFormulario":miFormulario}) 
 
 
-class SedeUpdate(UpdateView):
-    model=Sede
-    success_url = "../sede/list"
-    fields= ['nombre','ubicacion','estacionamiento','vestuarios']
+def leerSedes (request): 
+
+    sedes = Sede.objects.all() 
+
+    dicc = {"sedes":sedes} #contexto
+
+    return render (request,'AppTorneo/leerSedes.html', dicc)
 
 
-class SedeDelete(DeleteView):
-    model=Sede
-    success_url = "../sede/list"
+def eliminarSede (request, sede_id):
+
+    sedeQueQuieroBorrar = Sede.objects.get(id = sede_id)
+    sedeQueQuieroBorrar.delete ()
+
+    sedes = Sede.objects.all ()
+    return render (request, "AppTorneo/leerSedes.html", {"sedes":sedes})
+
+
+def modificarSede (request, sede_id):
+
+    sede = Sede.objects.get (id = sede_id)
+
+    if request.method == "POST":
+
+        miFormulario = SedeFormulario (request.POST)
+
+        if miFormulario.is_valid():
+
+            informacion = miFormulario.cleaned_data
+
+            sede.nombre = informacion["nombre"]
+            sede.ubicacion = informacion["ubicacion"]
+            sede.estacionamiento= informacion["estacionamiento"]
+            sede.vestuarios = informacion ["vestuarios"]
+
+            sede.save() #guarda en la base de datos
+            sedes = Sede.objects.all ()
+            return render (request, "AppTorneo/leerSedes.html", {"sedes":sedes})
+           
+    else:
+
+        miFormulario = SedeFormulario (initial = {"nombre":sede.nombre, "ubicacion":sede.ubicacion, "estacionamiento":sede.estacionamiento, "vestuarios":sede.vestuarios})
+
+    return render (request,'AppTorneo/editarSede.html', {"miFormulario":miFormulario, "sede_id":sede_id})
+
+
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+
+def login_request(request):
+    
+    if request.method =="POST":
+        
+        form = AuthenticationForm(request, data = request.POST)
+        
+        if form.is_valid():
+            
+            usuario = form.cleaned_data.get("username")
+            contra = form.cleaned_data.get("password")
+            
+            user = authenticate(username=usuario, password = contra)
+            
+            if user is not None:
+                
+                login(request, user)                
+                return render(request, "AppTorneo/inicio.html", {"mensaje":f"BIENVENIDO, {usuario}!!!!"})
+                
+            else:               
+                return render(request, "AppTorneo/inicio.html", {"mensaje":f"DATOS MALOS :(!!!!"})
+                           
+        else:           
+            return render(request, "AppTorneo/inicio.html", {"mensaje":f"FORMULARIO erroneo"})
+               
+    form = AuthenticationForm()  #Formulario sin nada para hacer el login
+    
+    return render(request, "AppTorneo/login.html", {"form":form} )
+
+
+#registro
+def register(request):
+
+      if request.method == 'POST':
+
+            form = UserRegisterForm(request.POST)
+            
+            if form.is_valid():
+
+                  username = form.cleaned_data['username']    
+                  form.save()    
+                  return render(request,"AppTorneo/inicio.html" ,  {"mensaje":f"USUARIO {username} Creado con exito! Logueate con tu usuario y contraseña"})
+
+      else:
+            form = UserRegisterForm()     
+            
+      return render(request,"AppTorneo/register.html" ,  {"form":form})
+
+
+@login_required
+def editarPerfil(request):
+ 
+    usuario = request.user
+    
+    if request.method == 'POST':
+        
+        miFormulario = UserEditForm(request.POST)
+        
+        if miFormulario.is_valid():
+            
+            informacion = miFormulario.cleaned_data
+            
+            usuario.email = informacion['email']
+            usuario.password1 = informacion['password1']
+            usuario.password2 = informacion['password2']
+            
+            usuario.save()
+            
+            return render(request, "AppTorneo/inicio.html")
+        
+    else:       
+        miFormulario = UserEditForm(initial={'email':usuario.email})
+              
+    return render(request, "AppTorneo/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
