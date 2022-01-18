@@ -12,14 +12,14 @@
 {% block contenidoVariable %} 
 
 
-<h5> Ingresa los datos requeridos para generar tu usuario</h5><br>
+<h5> Ingresa los datos a continuacion para generar tu usuario</h5><br>
 
 <form action="" method="POST">
 
     {% csrf_token %}
-    
-    {{ form.as_p}}
-   
+    <table>
+    {{ form.as_table}}
+    </table><br>
     <input type="submit" value="ENVIAR">
 
 </form>

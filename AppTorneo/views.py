@@ -1,35 +1,51 @@
 from django.shortcuts import render
-
-
 from django.http import HttpResponse
+from AppTorneo.models import Equipo, Torneo, Sede, Avatar
+from AppTorneo.forms import TorneoFormulario, SedeFormulario, UserRegisterForm, UserEditForm, UserAuthenticationForm, AvatarFormulario
 
-from AppTorneo.models import Equipo, Torneo, Sede
-from AppTorneo.forms import TorneoFormulario, SedeFormulario, UserRegisterForm, UserEditForm
+from django.views.generic import ListView
+
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView 
+
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.models import User
 
 
 def inicio (request):
-
-    # return HttpResponse ("Esto es una prueba del inicio")
-
-    return render(request, 'AppTorneo/inicio.html')
+    
+    diccionario = {}
+    cantidadDeAvatares = 0
+    
+    if request.user.is_authenticated:
+        avatar = Avatar.objects.filter( user = request.user.id)
+        #Avatar.objects.filter(user=request.user.id)[0].imagen.url 
+        
+        for a in avatar:
+            cantidadDeAvatares = cantidadDeAvatares + 1
+    
+    
+        diccionario["avatar"] = avatar[cantidadDeAvatares-1].imagen.url 
+    
+    return render(request, 'AppTorneo/inicio.html', diccionario)
+       
+    #return render(request, 'AppTorneo/inicio.html')
+    
 
 def presentacion (request):
 
     return render(request, 'AppTorneo/presentacion.html')   
 
+
 def torneos (request):
    
     return render(request, 'AppTorneo/torneos.html')
 
-def equipos (request):
-
-    return render (request,'AppTorneo/equipos.html' )
-
-def sedes (request):
-
-    return render (request,'AppTorneo/sedes.html' )
-
-
+#Torneos
+@login_required
 def torneosFormulario(request):
 
     if request.method == "POST":
@@ -52,7 +68,7 @@ def torneosFormulario(request):
 
     return render (request,'AppTorneo/torneosFormulario.html', {"miFormulario":miFormulario} )  
 
-#busqueda
+
 def buscar (request):
 
     if request.GET["sede"]:
@@ -70,11 +86,6 @@ def buscar (request):
         return render (request,'AppTorneo/resultadoBusquedaTorneo.html', {"respuesta": respuesta})
 
 #views equipos
-from django.views.generic import ListView
-
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, CreateView, DeleteView 
-
 
 class EquipoList(ListView):
     model=Equipo
@@ -84,24 +95,27 @@ class EquipoDetalle(DetailView):
     model=Equipo
     template_name="AppTorneo/equipo_detalle.html"
 
-class EquipoCreacion(CreateView):
+
+class EquipoCreacion(LoginRequiredMixin, CreateView):
 
     model=Equipo
     success_url = "../AppTorneo/equipo/list"
     fields= ['nombre','localidad','torneo']
 
 
-class EquipoUpdate(UpdateView):
+class EquipoUpdate(LoginRequiredMixin, UpdateView):
     model=Equipo
     success_url = "../equipo/list"
     fields= ['nombre','localidad','torneo']
 
 
-class EquipoDelete(DeleteView):
+class EquipoDelete(LoginRequiredMixin, DeleteView):
     model=Equipo
     success_url = "../equipo/list"
 
+
 #views sedes
+@login_required
 def sedesFormulario (request):
 
     if request.method == "POST":
@@ -134,7 +148,7 @@ def leerSedes (request):
 
     return render (request,'AppTorneo/leerSedes.html', dicc)
 
-
+@login_required
 def eliminarSede (request, sede_id):
 
     sedeQueQuieroBorrar = Sede.objects.get(id = sede_id)
@@ -143,7 +157,7 @@ def eliminarSede (request, sede_id):
     sedes = Sede.objects.all ()
     return render (request, "AppTorneo/leerSedes.html", {"sedes":sedes})
 
-
+@login_required
 def modificarSede (request, sede_id):
 
     sede = Sede.objects.get (id = sede_id)
@@ -172,15 +186,11 @@ def modificarSede (request, sede_id):
     return render (request,'AppTorneo/editarSede.html', {"miFormulario":miFormulario, "sede_id":sede_id})
 
 
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-
 def login_request(request):
-    
+
     if request.method =="POST":
         
-        form = AuthenticationForm(request, data = request.POST)
+        form = UserAuthenticationForm (request, data = request.POST)
         
         if form.is_valid():
             
@@ -190,17 +200,17 @@ def login_request(request):
             user = authenticate(username=usuario, password = contra)
             
             if user is not None:
-                
+
                 login(request, user)                
-                return render(request, "AppTorneo/inicio.html", {"mensaje":f"BIENVENIDO, {usuario}!!!!"})
+                return render(request, "AppTorneo/inicio.html", {"mensaje":f"Sesion iniciada con exito!"})
                 
             else:               
-                return render(request, "AppTorneo/inicio.html", {"mensaje":f"DATOS MALOS :(!!!!"})
+                return render(request, "AppTorneo/inicio.html", {"mensaje":f"Los datos ingresados son incorrectos"})
                            
         else:           
-            return render(request, "AppTorneo/inicio.html", {"mensaje":f"FORMULARIO erroneo"})
+            return render(request, "AppTorneo/inicio.html", {"mensaje":f"Error: los datos ingresados son incorrectos"})
                
-    form = AuthenticationForm()  #Formulario sin nada para hacer el login
+    form = UserAuthenticationForm()  
     
     return render(request, "AppTorneo/login.html", {"form":form} )
 
@@ -216,7 +226,7 @@ def register(request):
 
                   username = form.cleaned_data['username']    
                   form.save()    
-                  return render(request,"AppTorneo/inicio.html" ,  {"mensaje":f"USUARIO {username} Creado con exito! Logueate con tu usuario y contraseña"})
+                  return render(request,"AppTorneo/inicio.html" ,  {"mensaje":f"USUARIO {username} creado con exito!"})
 
       else:
             form = UserRegisterForm()     
@@ -249,3 +259,25 @@ def editarPerfil(request):
         miFormulario = UserEditForm(initial={'email':usuario.email})
               
     return render(request, "AppTorneo/editarPerfil.html", {"miFormulario":miFormulario, "usuario":usuario})
+
+@login_required
+def agregarAvatar(request):
+      if request.method == 'POST':
+
+            miFormulario = AvatarFormulario(request.POST, request.FILES) 
+
+            if miFormulario.is_valid():   #Si pasó la validación de Django
+
+                  u = User.objects.get(username=request.user)
+                
+                  avatar = Avatar (user=u, imagen=miFormulario.cleaned_data['imagen']) 
+      
+                  avatar.save()
+
+                  return render(request, "AppTorneo/inicio.html", {"avatar":avatar.imagen.url})
+
+      else: 
+
+            miFormulario= AvatarFormulario() #Formulario vacio para construir el html
+
+      return render(request, "AppTorneo/agregarAvatar.html", {"miFormulario":miFormulario})

@@ -17,12 +17,12 @@
 {%endif%}
 
 <form action = "/AppTorneo/sedesFormulario" method = "POST"> {% csrf_token %} 
- <p>Agregar nueva SEDE</p>
+ <h5>Agregar nueva SEDE</h5>
     <table>
     {{ miFormulario.as_table }}
     <table>
 
-    <input type= submit   value = "ENVIAR">
+    <br><input type= submit   value = "ENVIAR">
 
     </form> 
 

@@ -13,22 +13,17 @@
 
 <h1> USUARIO {{ user}} </h1>
 
-<p> Queres modificar tus datos? </p>
-    
-<p>Ingresa tu nuevo email y/o contraseña </p>
+<p> Agrega una nueva imagen a tu perfil: </p>
 
-<form action="" method="POST">  {% csrf_token %}
+<form method="POST" enctype="multipart/form-data">
 
-    <table>
+    {% csrf_token %}
+    {{ miFormulario.as_p }}
 
-        {{ miFormulario.as_table }}
 
-    </table><br>
-
-    <input type="submit" value="Enviar cambios">
+    <input type="submit" value="Cargar imagen">
 
 </form><br>
-<p>Agregar/Modificar imagen de perfil <a href = "{% url 'AgregarAvatar'%}">Agregar imagen</a></p></p>
 
 <p> Te arrepentiste? <a href = "{% url 'Inicio'%}">Volver a Inicio</a></p>
 

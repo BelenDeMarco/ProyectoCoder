@@ -15,9 +15,9 @@
           <h3>Cargar/Modificar equipo</h3><br>
           <form method="POST"> {% csrf_token %}
 
-         
-          <p> {{form.as_p}} </p>
-
+        <table>
+          {{form.as_table}} 
+        </table> 
 
           <input type="submit" value="Enviar" />
 

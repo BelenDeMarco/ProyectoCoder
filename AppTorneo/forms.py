@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 
 class TorneoFormulario (forms.Form):
     
@@ -19,6 +20,12 @@ class SedeFormulario (forms.Form):
     vestuarios = forms.BooleanField (required=False)
 
 
+class UserAuthenticationForm (AuthenticationForm):
+
+    username = forms.CharField(label='Usuario')
+    password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    
+
 class UserRegisterForm(UserCreationForm):
   
     first_name = forms.CharField(label='Nombre')
@@ -27,10 +34,7 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repetir la contraseña', widget=forms.PasswordInput) 
-      
-    
-    
-   
+       
     class Meta:
         model = User
         fields = ['first_name','last_name','username', 'email', 'password1', 'password2'] 
@@ -39,9 +43,14 @@ class UserRegisterForm(UserCreationForm):
 class UserEditForm(UserCreationForm):
     
     email = forms.EmailField(label="Ingrese su email:")
-    password1 = forms.CharField(label='Contraseña')
+    password1 = forms.CharField(label='Contraseña',widget=forms.PasswordInput)
     password2 = forms.CharField(label='Repetir la contraseña', widget=forms.PasswordInput)  
  
     class Meta:
         model = User
         fields = [ 'email', 'password1', 'password2']
+
+
+class AvatarFormulario(forms.Form):
+    
+    imagen = forms.ImageField(required=True)

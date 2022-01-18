@@ -12,15 +12,17 @@
 {% block contenidoVariable %} 
 
 
-<p> Ingresa con tu usuario y contraseña:</p>
+<h5> Ingresa con tu nombre de usuario y contraseña:</h5>
 
 <form action="" method="POST">
 
     {% csrf_token %}
 
-    {{form.as_p}}
+    <table>
+    {{form.as_table}}
+    </table>
 
-    <input type="submit" value="LOGIN">
+    <br><input type="submit" value="Iniciar sesion">
 
 </form>
 

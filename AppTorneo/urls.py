@@ -12,10 +12,6 @@ urlpatterns = [
 
     path ('Torneos', views.torneos, name = "Torneos"),
 
-    path ('Equipos', views.equipos, name = "Equipos"),
-
-    path ('Sedes', views.sedes, name = "Sedes"),
-
     path ('torneosFormulario', views.torneosFormulario, name="TorneosFormulario"),
         
     path ('buscar/', views.buscar),
@@ -30,11 +26,8 @@ urlpatterns = [
 
 #URL Sedes
     path ('sedesFormulario', views.sedesFormulario, name = "SedesFormulario"),
-
     path ('leerSedes', views.leerSedes, name = "LeerSedes"),
-
     path ('eliminarSede/<sede_id>/', views.eliminarSede, name = "EliminarSede"),
-
     path ('editarSede/<sede_id>/', views.modificarSede, name = "EditarSede"), 
 
  #URL LOGIN, etc 
@@ -46,4 +39,5 @@ urlpatterns = [
 
 #editarUsuario
     path('editarPerfil', views.editarPerfil, name="EditarPerfil"),
+    path('agregarAvatar', views.agregarAvatar, name="AgregarAvatar"),
 ] 

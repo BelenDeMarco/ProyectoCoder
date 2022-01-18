@@ -8,3 +8,5 @@ admin.site.register (Torneo)
 admin.site.register (Sede)
 
 admin.site.register (Equipo)
+
+admin.site.register(Avatar)

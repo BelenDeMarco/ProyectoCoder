@@ -33,8 +33,14 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'Torneos'%}">Torneos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'LeerSedes'%}">Sedes</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'EquipoList'%}">Equipos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Registrate</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Registrate</a></li>
+                        {% if  request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'Logout'%}">Cerrar Sesion</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'EditarPerfil'%}"><b>{{user.username}}</b></a></li>
+                        {% endif %}
+                        {% if not request.user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'Register'%}">Registrate</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'Login'%}">Ingresar</a></li>
+                        {% endif %}
 
                     </ul>
                 </div>
@@ -61,15 +67,6 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-4 text-lg-start">Copyright &copy; Alto Nono</div>
-                    <div class="col-lg-4 my-3 my-lg-0">
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <a class="link-dark text-decoration-none me-3" href="#!">Privacy Policy</a>
-                        <a class="link-dark text-decoration-none" href="#!">Terms of Use</a>
-                    </div>
                 </div>
             </div>
         </footer>

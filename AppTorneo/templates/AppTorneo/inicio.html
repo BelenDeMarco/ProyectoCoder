@@ -4,15 +4,21 @@
 
 
 {%block titulo%}
-    
+    {% if  request.user.is_authenticated %}
+    <div class="masthead-subheading">Hola, {{user.username}}!
+    <img src="{{ avatar }}" alt=".." height = "100 px"></div><br>
+    {% endif %}
+    {% if not  request.user.is_authenticated %}  
     <div class="masthead-subheading">#FUTBOLENSERIO</div><br>
+    {% endif %}
     <div class="masthead-heading text-uppercase">Torneo ALTO NONO</div>
 
 {%endblock%}
 
 {% block contenidoVariable %} 
 
-<h5> {{ mensaje }} </h5>
+<h3> {{ mensaje }} </h3>
+
 
 {%endblock%} 
 
